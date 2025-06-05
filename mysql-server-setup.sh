@@ -18,7 +18,7 @@ DB_USER="${DB_USER}"
 DB_PASS="${DB_PASS}"
 
 # Cria utilizador apenas se ainda não existir
-sudo mysql --execute "CREATE USER $DB_USER@'%' IDENTIFIED BY '$DB_PASSWORD';"
+sudo mysql --execute "CREATE USER $DB_USER@'%' IDENTIFIED BY '$DB_PASS';"
 sudo mysql --execute "GRANT ALL PRIVILEGES ON mysql.* TO $DB_USER@'%';"
 sudo mysql --execute "FLUSH PRIVILEGES;"
 
