@@ -1,5 +1,9 @@
 #!/bin/bash
 
+DB_USER="${DB_USER}"
+DB_PASS="${DB_PASS}"
+DB_HOST="${DB_HOST}"
+
 # Atualiza pacotes e instala Apache2
 sudo apt-get update
 sudo apt-get install -y apache2 php php-mysqli libapache2-mod-php mysql-client-core-8.0
@@ -7,19 +11,19 @@ sudo apt-get install -y apache2 php php-mysqli libapache2-mod-php mysql-client-c
 # Reinicia o serviço Apache
 sudo systemctl restart apache2
 
-# Cria a página phpinfo
-sudo echo "<?php phpinfo(); ?>" > /var/www/html/info.php
+# Cria phpinfo
+echo "<?php phpinfo(); ?>" | sudo tee /var/www/html/info.php
 
-# Cria o script PHP para testar conexão à base de dados
-sudo cat <<'EOF' > /var/www/html/testdb.php
+# Cria testdb.php com variáveis substituídas
+sudo tee /var/www/html/testdb.php > /dev/null <<EOF
 <?php
-\$servername = "${DB_HOST}";
+\$servername = "$DB_HOST";
 \$database = "mysql";
-\$username = "${DB_USER}";
-\$password = "${DB_PASS}";
+\$username = "$DB_USER";
+\$password = "$DB_PASS";
 
 // Cria a conexão
-\$conn = new mysqli($servername, \$username, \$password, \$database);
+\$conn = new mysqli(\$servername, \$username, \$password, \$database);
 
 // Verifica a conexão
 if (\$conn->connect_error) {
